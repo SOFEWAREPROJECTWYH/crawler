@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tables Demo</title>
+    <link rel="stylesheet" type="text/css" href="table.css">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!-- BEGIN PAGE LEVEL CUSTOM STYLES -->
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/datatables.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/forms/theme-checkbox-radio.css">
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/dt-global_style.css">
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/custom_dt_custom.css">
+    <link href="assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="plugins/select2/select2.min.css">
+</head>
+<body>
+<h2>城市信息</h2>
+
+    <table class="Modbus">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>CountryCode</th>
+            <th>District</th>
+            <th>Population</th>
+            <th>其他操作</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+        <div class="widget-header">
+            <div class="row" style="margin-top: 20px">
+                <div class="col-md-2">
+                    <button class="btn btn-success" onclick="ShowAddCity()">Add</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="Add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">AddCity</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" method="post" action="/ClassRoom/Update">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-1"><span class="glyphicon glyphicon-user"></span></div>
+                                <div class="col-md-2"><label>name</label> </div>
+                                <div class="col-md-7"><input class="form-control" name="Name" id="Name" /></div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-1"><span class="glyphicon glyphicon-home"></span></div>
+                                <div class="col-md-2"><label>codeCountry</label> </div>
+                                <div class="col-md-7">
+                                    <input class="form-control" id="codeCountry" name="codeCountry">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-1"><span class="glyphicon glyphicon-road"></span></div>
+                                <div class="col-md-2"><label>district</label> </div>
+                                <div class="col-md-7">
+                                    <input type="text" name="district" class="form-control" id="district" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-1"><span class="glyphicon glyphicon-list"></span></div>
+                                <div class="col-md-2"><label>population</label> </div>
+                                <div class="col-md-7">
+                                    <input name="population" id="population" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px" class="center-block">
+                                <input type="hidden" name="pagesize" class="form-control"/>
+                                <input type="hidden" name="index" class="form-control"/>
+                                <input type="hidden" name="Id" class="form-control" value="" id="Id" />
+                            </div>
+                            <div class="row" style="margin-bottom:10px" class="center-block">
+                                <div class="col-md-5"></div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" onclick="AddCity()">提交</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">添加城市</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" method="post" action="/ClassRoom/Update">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-1"><span class="glyphicon glyphicon-user"></span></div>
+                                <div class="col-md-2"><label>name</label> </div>
+                                <div class="col-md-7"><input class="form-control" name="Name" id="NameUpd" /></div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-1"><span class="glyphicon glyphicon-home"></span></div>
+                                <div class="col-md-2"><label>codeCountry</label> </div>
+                                <div class="col-md-7">
+                                    <input class="form-control" id="codeCountryUpd" name="codeCountry">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-1"><span class="glyphicon glyphicon-road"></span></div>
+                                <div class="col-md-2"><label>district</label> </div>
+                                <div class="col-md-7">
+                                    <input type="text" name="district" class="form-control" id="districtUpd" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-1"><span class="glyphicon glyphicon-list"></span></div>
+                                <div class="col-md-2"><label>population</label> </div>
+                                <div class="col-md-7">
+                                    <input name="population" id="populationUpd" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px" class="center-block">
+                                <input type="hidden" name="pagesize" class="form-control"/>
+                                <input type="hidden" name="index" class="form-control"/>
+                                <input type="text" name="Id" class="form-control" value="" id="IdUpd" />
+                            </div>
+                            <div class="row" style="margin-bottom:10px" class="center-block">
+                                <div class="col-md-5"></div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" onclick="Update()">提交</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">删除页</h4>
+                    </div>
+                    <div class="modal-body">id=<span id="deleteid"></span><span id="deleteInformation"></span></div>
+                    <div>
+                        <input id="no">
+                        <input id="totalpagenum">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="DeleteCity()">删除</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <script src="webjars/jquery/3.5.1/jquery.js"></script>
+        <script src="assets/js/libs/jquery-3.1.1.min.js"></script>
+        <script src="bootstrap/js/popper.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+        <script src="assets/js/app.js"></script>
+        <script src="assets/js/custom.js"></script>
+        <script src="plugins/table/datatable/datatables.js"></script>
+        <script src="assets/js/scrollspyNav.js"></script>
+        <script src="plugins/select2/select2.min.js"></script>
+        <script src="plugins/select2/custom-select2.js"></script>
+        <script>
+            function UpdateCity(id)
+            {
+                $.ajax({
+                    url: "/city/findCityById",
+                    type: "post",
+                    data:{
+                        id:id
+                    },
+                    dataType: "json",
+                    success: function(data)
+                    {
+                        $("#NameUpd").val(data.name);
+                        $("#populationUpd").val(data.population);
+                        $("#districtUpd").val(data.district);
+                        $("#codeCountryUpd").val(data.countryCode);
+                        $("#IdUpd").val(id);
+                        $("#update").modal("show");
+                    }
+                })
+            }
+            function Update()
+            {
+                var name=$("#NameUpd").val();
+                var population=$("#populationUpd").val();
+                var district=$("#districtUpd").val();
+                var countryCode=$("#codeCountryUpd").val();
+                var id=$("#IdUpd").val();
+                $.ajax({
+                    url: "/city/update",
+                    type: "post",
+                    data:{
+                        name:name,
+                        population:population,
+                        district:district,
+                        countryCode:countryCode,
+                        ID:id
+                    },
+                    dataType: "json",
+                    success: function(data)
+                    {
+                        $("#update").modal("hide");
+                        $("#tbody").html("");
+                        var id=$("#no").val();
+                        var pagesize=$("#totalpagenum").val();
+                        if(data==1)
+                        {
+                            $.ajax({
+                                url: "/city/findAll",
+                                type: "post",
+                                data:{
+                                    index:id,
+                                    pagesize:pagesize
+                                },
+                                dataType: "json",
+                                success: function (data) {
+                                    var result=data.list;
+                                    $("#pageno").html(data.pageNum);
+                                    $("#totalpages").html(data.pages);
+                                    var str = "";
+                                    for (var i = 0; i < result.length; i++) {
+                                        str="";
+                                        str = str + '<tr>\n' +
+                                            '                                        <td class="checkbox-column"> ' + result[i].id + '<input type="checkbox" id="id" class="form-control" value="'+result[i].id+'"> </td>\n' +
+                                            '                                        <td class="user-name">' + result[i].name + '</td>\n' +
+                                            '\n' +
+                                            '                                        <td>' + result[i].countryCode + '</td>\n' +
+                                            '                                        <td>' + result[i].district + '</td>\n' +
+                                            '                                        <td>\n' +
+                                            '                                            <div class="d-flex">\n' +
+                                            '                                                <div class=" align-self-center d-m-success  mr-1 data-marker"></div>\n' +
+                                            '                                                <span class="label label-success">' + result[i].population + '</span>\n' +
+                                            '                                            </div>\n' +
+                                            '                                        </td>\n' +
+                                            '                                        <td class="text-center">\n' +
+                                            '                                            <div class="dropdown custom-dropdown">\n' +
+                                            '                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\n' +
+                                            '                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>\n' +
+                                            '                                                </a>\n' +
+                                            '\n' +
+                                            '                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink7">\n' +
+                                            '                                                    <a class="dropdown-item" onclick="ShowAddCity()">Add</a>\n' +
+                                            '                                                    <a class="dropdown-item" onclick="UpdateCity('+result[i].id+')">Edit</a>\n'+
+                                            '                                                    <a class="dropdown-item" onclick="deleteOneCity('+result[i].id+')">Delete</a>\n' +
+                                            '                                                </div>\n' +
+                                            '                                            </div>\n' +
+                                            '                                        </td>\n' +
+                                            '                                    </tr>';
+                                        $("#tbody").append(str);
+                                    }
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+            function ChangeSize()
+            {
+                $("#pagesize").val()
+            }
+            function findAll(index,pagesize)
+            {
+                $("#tbody").html("");
+                if(data==1)
+                {
+                    $.ajax({
+                        url: "/city/findAll",
+                        type: "post",
+                        data:{
+                            index:index,
+                            pagesize:pagesize
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            var result=data.list;
+                            $("#pageno").html(data.pageNum);
+                            $("#totalpages").html(data.pages);
+                            var str = "";
+                            for (var i = 0; i < result.length; i++) {
+                                str="";
+                                str = str + '<tr>\n' +
+                                    '                                        <td class="checkbox-column"> ' + result[i].id + '<input type="checkbox" id="id" class="form-control" value="'+result[i].id+'"> </td>\n' +
+                                    '                                        <td class="user-name">' + result[i].name + '</td>\n' +
+                                    '\n' +
+                                    '                                        <td>' + result[i].countryCode + '</td>\n' +
+                                    '                                        <td>' + result[i].district + '</td>\n' +
+                                    '                                        <td>\n' +
+                                    '                                            <div class="d-flex">\n' +
+                                    '                                                <div class=" align-self-center d-m-success  mr-1 data-marker"></div>\n' +
+                                    '                                                <span class="label label-success">' + result[i].population + '</span>\n' +
+                                    '                                            </div>\n' +
+                                    '                                        </td>\n' +
+                                    '                                        <td class="text-center">\n' +
+                                    '                                            <div class="dropdown custom-dropdown">\n' +
+                                    '                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\n' +
+                                    '                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>\n' +
+                                    '                                                </a>\n' +
+                                    '\n' +
+                                    '                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink7">\n' +
+                                    '                                                    <a class="dropdown-item" onclick="ShowAddCity()">Add</a>\n' +
+                                    '                                                    <a class="dropdown-item" onclick="UpdateCity('+result[i].id+')">Edit</a>\n' +
+                                    '                                                    <a class="dropdown-item" onclick="deleteOneCity('+result[i].id+')">Delete</a>\n' +
+                                    '                                                </div>\n' +
+                                    '                                            </div>\n' +
+                                    '                                        </td>\n' +
+                                    '                                    </tr>';
+                                $("#tbody").append(str);
+                            }
+                        }
+                    })
+                }
+            }
+            function AddCity()
+            {
+                var name=$("#Name").val();
+                var population=$("#population").val();
+                var district=$("#district").val();
+                var countryCode=$("#codeCountry").val();
+                $.ajax({
+                    url: "/city/insert",
+                    type: "post",
+                    async: false,
+                    data:{
+                        name:name,
+                        population:population,
+                        district:district,
+                        countryCode:countryCode
+                    },
+                    dataType: "json",
+                    success: function(data)
+                    {
+                        $("#Add").modal("hide");
+                    }
+                })
+            }
+            function ShowAddCity()
+            {
+                $("#Add").modal("show");
+            }
+            function deleteOneCity(id)
+            {
+                $.ajax({
+                    url: "/city/findCityById",
+                    type: "post",
+                    async: false,
+                    data:{
+                        id:id
+                    },
+                    dataType: "json",
+                    success: function(data)
+                    {
+                        var str="";
+                        $("#deleteid").html(data.id);
+                        str=str+"您确定要删除id=\n"+data.id+";Name=\n"+data.name+";contryCode=\n"+data.contryCode+";district=\n"+data.district+";population\n"+data.population;
+                        $("#deleteInformation").html(str);
+                        $("#delete").modal('show');
+                    }
+                })
+            }
+            function DeleteCity()
+            {
+
+                $.ajax({
+                    url:"/city/deleteCity",
+                    type:"post",
+                    data:{
+                        id:$("#deleteid").html()
+                    },
+                    dataType:"json",
+                    success:function(data)
+                    {
+                        $("#delete").modal('hide');
+                        $("#tbody").html("");
+                        var id=$("#no").val();
+                        var pagesize=$("#totalpagenum").val();
+                        if(data==1)
+                        {
+                            $.ajax({
+                                url: "/city/findAll",
+                                type: "post",
+                                data:{
+                                    index:id,
+                                    pagesize:pagesize
+                                },
+                                dataType: "json",
+                                success: function (data) {
+                                    var result=data.list;
+                                    $("#pageno").html(data.pageNum);
+                                    $("#totalpages").html(data.pages);
+                                    var str = "";
+                                    for (var i = 0; i < result.length; i++) {
+                                        str="";
+                                        str = str + '<tr>\n' +
+                                            '                                        <td class="user-name">' + result[i].name + '</td>\n' +
+                                            '\n' +
+                                            '                                        <td>' + result[i].countryCode + '</td>\n' +
+                                            '                                        <td>' + result[i].district + '</td>\n' +
+                                            '                                        <td>\n' +
+                                            '                                            <div class="d-flex">\n' +
+                                            '                                                <div class=" align-self-center d-m-success  mr-1 data-marker"></div>\n' +
+                                            '                                                <span class="label label-success">' + result[i].population + '</span>\n' +
+                                            '                                            </div>\n' +
+                                            '                                        </td>\n' +
+                                            '                                        <td class="text-center">\n' +
+                                            '                                            <div class="dropdown custom-dropdown">\n' +
+                                            '                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\n' +
+                                            '                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>\n' +
+                                            '                                                </a>\n' +
+                                            '\n'
+                                            '                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink7">\n' +
+                                            '                                                    <a class="dropdown-item" onclick="ShowAddCity()">Add</a>\n' +
+                                            '                                                    <a class="dropdown-item" onclick="UpdateCity('+result[i].id+')">Edit</a>\n' +
+                                            '                                                    <a class="dropdown-item" onclick="deleteOneCity('+result[i].id+')">Delete</a>\n' +
+                                            '                                                </div>\n' +
+                                            '                                            </div>\n' +
+                                            '                                        </td>\n' +
+                                            '                                    </tr>';
+                                        $("#tbody").append(str);
+                                    }
+                                }
+                            })
+                        }
+                    }
+                })
+
+            }
+
+            $(document).ready(function() {
+                var ss = $(".basic").select2({
+                    tags: true,
+                });
+                $.ajax({
+                    url: "/city/findAll",
+                    type: "post",
+                    async: false,
+                    data:{
+                        index:1,
+                        pagesize:10
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        var result=data.list;
+                        $("#no").val(data.pageNum);
+                        $("#totalpagenum").val(data.pageSize);
+                        $("#pageno").html(data.pageNum);
+                        $("#totalpages").html(data.pages);
+                        var str = "";
+                        for (var i = 0; i < result.length; i++) {
+                            str="";
+                            str = str + '<tr>\n' +
+                                '                                        <td class="checkbox-column"> ' + result[i].id +
+                                '                                        <td class="user-name">' + result[i].name + '</td>\n' +
+                                '\n' +
+                                '                                        <td>' + result[i].countryCode + '</td>\n' +
+                                '                                        <td>' + result[i].district + '</td>\n' +
+                                '                                        <td>\n' +
+                                '                                            <div class="d-flex">\n' +
+                                '                                                <div class=" align-self-center d-m-success  mr-1 data-marker"></div>\n' +
+                                '                                                <span class="label label-success">' + result[i].population + '</span>\n' +
+                                '                                            </div>\n' +
+                                '                                        </td>\n' +
+                                '                                        <td class="text-center">\n' +
+                                '                                            <div class="dropdown custom-dropdown">\n' +
+                                '                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\n' +
+                                '                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>\n' +
+                                '                                                </a>\n' +
+                                '\n' +
+                                '                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink7">\n' +
+                                '                                                    <a class="dropdown-item" onclick="ShowAddCity()">Add</a>\n' +
+                                '                                                    <a class="dropdown-item" onclick="UpdateCity('+result[i].id+')">Edit</a>\n' +
+                                '                                                    <a class="dropdown-item" onclick="deleteOneCity('+result[i].id+')">Delete</a>\n' +
+                                '                                                </div>\n' +
+                                '                                            </div>\n' +
+                                '                                        </td>\n' +
+                                '                                    </tr>';
+                            $("#tbody").append(str);
+                        }
+                    }
+                })
+                App.init();
+            })
+            // var e;
+            c1 = $('#style-1').DataTable({
+                headerCallback:function(e, a, t, n, s) {
+                    e.getElementsByTagName("th")[0].innerHTML='<label class="new-control new-checkbox checkbox-outline-primary m-auto">\n<input type="checkbox" class="new-control-input chk-parent select-customers-info" id="customer-all-info">\n<span class="new-control-indicator"></span><span style="visibility:hidden">c</span>\n</label>'
+                },
+                columnDefs:[ {
+                    targets:0, width:"30px", className:"", orderable:!1, render:function(e, a, t, n) {
+                        return'<label class="new-control new-checkbox checkbox-outline-primary  m-auto">\n<input type="checkbox" class="new-control-input child-chk select-customers-info" id="customer-all-info">\n<span class="new-control-indicator"></span><span style="visibility:hidden">c</span>\n</label>'
+                    }
+                }],
+                "oLanguage": {
+                    "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                    "sInfo": "Showing page _PAGE_ of _PAGES_",
+                    "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                    "sSearchPlaceholder": "Search...",
+                    "sLengthMenu": "Results :  _MENU_",
+                },
+                "lengthMenu": [5, 10, 20, 50],
+                "pageLength": 5
+            });
+
+            multiCheck(c1);
+
+            c2 = $('#style-2').DataTable({
+                headerCallback:function(e, a, t, n, s) {
+                    e.getElementsByTagName("th")[0].innerHTML='<label class="new-control new-checkbox checkbox-outline-primary m-auto">\n<input type="checkbox" class="new-control-input chk-parent select-customers-info" id="customer-all-info">\n<span class="new-control-indicator"></span><span style="visibility:hidden">c</span>\n</label>'
+                },
+                columnDefs:[ {
+                    targets:0, width:"30px", className:"", orderable:!1, render:function(e, a, t, n) {
+                        return'<label class="new-control new-checkbox checkbox-outline-primary  m-auto">\n<input type="checkbox" class="new-control-input child-chk select-customers-info" id="customer-all-info">\n<span class="new-control-indicator"></span><span style="visibility:hidden">c</span>\n</label>'
+                    }
+                }],
+                "oLanguage": {
+                    "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                    "sInfo": "Showing page _PAGE_ of _PAGES_",
+                    "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                    "sSearchPlaceholder": "Search...",
+                    "sLengthMenu": "Results :  _MENU_",
+                },
+                "lengthMenu": [5, 10, 20, 50],
+                "pageLength": 5
+            });
+
+            multiCheck(c2);
+
+            c3 = $('#style-3').DataTable({
+                "oLanguage": {
+                    "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                    "sInfo": "Showing page _PAGE_ of _PAGES_",
+                    "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                    "sSearchPlaceholder": "Search...",
+                    "sLengthMenu": "Results :  _MENU_",
+                },
+                "stripeClasses": [],
+                "lengthMenu": [5, 10, 20, 50],
+                "pageLength": 5
+            });
+
+            multiCheck(c3);
+        </script>
+    </table>
+</body>
+</html>

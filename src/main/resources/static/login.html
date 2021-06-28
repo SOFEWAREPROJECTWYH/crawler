@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/webjars/layui/2.5.6/css/layui.css" rel="stylesheet">
+    <style>
+        html,body{
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div style="display: flex;align-content: center;justify-content: center;">
+    <form class="layui-form" style="width: 50%" >
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名:</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码: </label>
+            <div class="layui-input-block">
+                <input type="text" name="password" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="button" id="login">登录</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/webjars/layui/2.5.6/layui.js" charset="utf-8"></script>
+<script src="/webjars/jquery/3.5.1/jquery.js" charset="utf-8"></script>
+<script>
+    $("#login").click(function(){
+        $.ajax({
+            url:"/login",
+            type:"post",
+            datatype:"json",
+            data:{
+                username:$("#username").val(),
+                password:$("#password").val()
+            },
+            success:function(result){
+                if(result.code==200){
+                    window.location.href="index.html";
+                }else if(result.code==300){
+                    window.location.href="register.html";
+                }else{
+                    alert("密码错误，请重试")
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>
